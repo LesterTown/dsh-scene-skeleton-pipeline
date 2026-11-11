@@ -1,0 +1,1301 @@
+{
+  "$schema": "dsh-scene-skeleton-pipeline/asset-library@1",
+  "version": 1,
+  "note": "语义资产库：plan_scene_layout 的 type 白名单 + 尺寸范围 + 程序化几何定义（唯一事实源）。新增 type 只需在这里加条目，并在 run_scenic.py 的 _build_geometry_part 支持所需 primitive；材质可选 albedo/normal/roughness/metallic 贴图路径（相对 assetLibraryPath，缺失回退纯色）。每个 type 可选 modelPath（相对 assetModelPath 的 .glb/.gltf 模型路径，存在则导入真实模型，否则回退图元），配套 license（CC0）与 sourceUrl（推荐下载来源）。",
+  "normalization": {
+    "size": "完整尺寸，单位米：size = [sx, sy, sz]（宽, 高, 深）",
+    "part.size": "[dx, dy, dz]，是 [sx, sy, sz] 的比例（1 = 占满该轴）",
+    "part.offset": "[ox, oy, oz]，是 [sx, sy, sz] 的比例，从底面中心（0,0,0）量起，y 向上",
+    "part.radius": "圆柱/圆锥/球半径，是 min(sx, sz)/2 的比例",
+    "part.height": "圆柱/圆锥高度，是 sy 的比例"
+  },
+  "categories": [
+    "Terrain",
+    "Buildings",
+    "Props"
+  ],
+  "placements": [
+    "ground",
+    "wall",
+    "top"
+  ],
+  "materials": {
+    "stone": {
+      "color": [
+        0.62,
+        0.61,
+        0.58
+      ],
+      "roughness": 0.85,
+      "albedoPath": "stone/albedo.png",
+      "normalPath": "stone/normal.png",
+      "roughnessPath": "stone/roughness.png",
+      "metallicPath": "stone/metallic.png"
+    },
+    "stone_dark": {
+      "color": [
+        0.42,
+        0.42,
+        0.4
+      ],
+      "roughness": 0.9,
+      "albedoPath": "stone_dark/albedo.png",
+      "normalPath": "stone_dark/normal.png",
+      "roughnessPath": "stone_dark/roughness.png",
+      "metallicPath": "stone_dark/metallic.png"
+    },
+    "wood": {
+      "color": [
+        0.36,
+        0.24,
+        0.15
+      ],
+      "roughness": 0.8,
+      "albedoPath": "wood/albedo.png",
+      "normalPath": "wood/normal.png",
+      "roughnessPath": "wood/roughness.png",
+      "metallicPath": "wood/metallic.png"
+    },
+    "wood_dark": {
+      "color": [
+        0.24,
+        0.16,
+        0.1
+      ],
+      "roughness": 0.85,
+      "albedoPath": "wood_dark/albedo.png",
+      "normalPath": "wood_dark/normal.png",
+      "roughnessPath": "wood_dark/roughness.png",
+      "metallicPath": "wood_dark/metallic.png"
+    },
+    "trunk": {
+      "color": [
+        0.28,
+        0.18,
+        0.1
+      ],
+      "roughness": 0.9,
+      "albedoPath": "trunk/albedo.png",
+      "normalPath": "trunk/normal.png",
+      "roughnessPath": "trunk/roughness.png",
+      "metallicPath": "trunk/metallic.png"
+    },
+    "leaf": {
+      "color": [
+        0.22,
+        0.42,
+        0.18
+      ],
+      "roughness": 0.72,
+      "albedoPath": "leaf/albedo.png",
+      "normalPath": "leaf/normal.png",
+      "roughnessPath": "leaf/roughness.png",
+      "metallicPath": "leaf/metallic.png"
+    },
+    "metal": {
+      "color": [
+        0.25,
+        0.26,
+        0.28
+      ],
+      "roughness": 0.45,
+      "albedoPath": "metal/albedo.png",
+      "normalPath": "metal/normal.png",
+      "roughnessPath": "metal/roughness.png",
+      "metallicPath": "metal/metallic.png"
+    },
+    "ground": {
+      "color": [
+        0.42,
+        0.45,
+        0.34
+      ],
+      "roughness": 0.95,
+      "albedoPath": "ground/albedo.png",
+      "normalPath": "ground/normal.png",
+      "roughnessPath": "ground/roughness.png",
+      "metallicPath": "ground/metallic.png"
+    },
+    "water": {
+      "color": [
+        0.18,
+        0.34,
+        0.44
+      ],
+      "roughness": 0.15,
+      "albedoPath": "water/albedo.png",
+      "normalPath": "water/normal.png",
+      "roughnessPath": "water/roughness.png",
+      "metallicPath": "water/metallic.png"
+    }
+  },
+  "assets": [
+    {
+      "type": "column",
+      "label": "柱子",
+      "category": "Buildings",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.5,
+          10
+        ],
+        "footprint": [
+          0.1,
+          3
+        ],
+        "min": 0.1
+      },
+      "defaultSize": [
+        0.6,
+        3.0,
+        0.6
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.04,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.02,
+            0
+          ]
+        },
+        {
+          "shape": "cylinder",
+          "material": "stone",
+          "radius": 0.42,
+          "height": 0.94,
+          "offset": [
+            0,
+            0.49,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.04,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.98,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_medieval/column_stone.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "wall",
+      "label": "墙体",
+      "category": "Buildings",
+      "placement": [
+        "ground",
+        "wall"
+      ],
+      "sizeRange": {
+        "height": [
+          0.3,
+          8
+        ],
+        "footprint": [
+          0.05,
+          30
+        ],
+        "min": 0.05
+      },
+      "defaultSize": [
+        4.0,
+        2.4,
+        0.4
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            1.0,
+            0.94,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.47,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.06,
+            1.05
+          ],
+          "offset": [
+            0,
+            0.97,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_medieval/wall_stone.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "archway",
+      "label": "拱门",
+      "category": "Buildings",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          1.5,
+          8
+        ],
+        "footprint": [
+          0.6,
+          12
+        ],
+        "min": 0.2
+      },
+      "defaultSize": [
+        6.0,
+        3.2,
+        0.6
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            0.18,
+            1.0,
+            1.0
+          ],
+          "offset": [
+            -0.41,
+            0.5,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            0.18,
+            1.0,
+            1.0
+          ],
+          "offset": [
+            0.41,
+            0.5,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.25,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.875,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_medieval/arch_stone.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "gatehouse",
+      "label": "门房",
+      "category": "Buildings",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          1.5,
+          9
+        ],
+        "footprint": [
+          1,
+          12
+        ],
+        "min": 0.4
+      },
+      "defaultSize": [
+        5.0,
+        4.0,
+        4.0
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            0.82,
+            0.72,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.36,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.12,
+            1.12
+          ],
+          "offset": [
+            0,
+            0.84,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.3,
+            0.42,
+            0.04
+          ],
+          "offset": [
+            0,
+            0.21,
+            -0.5
+          ]
+        }
+      ],
+      "modelPath": "quaternius_medieval/gatehouse.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "platform",
+      "label": "平台/台阶基座",
+      "category": "Buildings",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.1,
+          3
+        ],
+        "footprint": [
+          0.5,
+          20
+        ],
+        "min": 0.1
+      },
+      "defaultSize": [
+        6.0,
+        0.4,
+        6.0
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            1.0,
+            0.9,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.45,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.1,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.95,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_medieval/floor_stone.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "stairs",
+      "label": "台阶",
+      "category": "Buildings",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.2,
+          3
+        ],
+        "footprint": [
+          0.3,
+          10
+        ],
+        "min": 0.1
+      },
+      "defaultSize": [
+        3.0,
+        1.2,
+        2.0
+      ],
+      "geometry": [
+        {
+          "shape": "steps",
+          "material": "stone",
+          "count": 5,
+          "direction": "z"
+        }
+      ],
+      "modelPath": "quaternius_medieval/stairs_stone.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "tree",
+      "label": "树",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          1,
+          12
+        ],
+        "footprint": [
+          0.5,
+          8
+        ],
+        "min": 0.3
+      },
+      "defaultSize": [
+        3.0,
+        5.0,
+        3.0
+      ],
+      "geometry": [
+        {
+          "shape": "cylinder",
+          "material": "trunk",
+          "radius": 0.16,
+          "height": 0.4,
+          "offset": [
+            0,
+            0.2,
+            0
+          ]
+        },
+        {
+          "shape": "cone",
+          "material": "leaf",
+          "radius": 0.5,
+          "height": 0.6,
+          "offset": [
+            0,
+            0.7,
+            0
+          ]
+        }
+      ],
+      "modelPath": "kenney_nature/tree_pine.glb",
+      "license": "CC0",
+      "sourceUrl": "https://kenney.nl/assets/nature-kit"
+    },
+    {
+      "type": "bush",
+      "label": "灌木",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.2,
+          3
+        ],
+        "footprint": [
+          0.3,
+          4
+        ],
+        "min": 0.15
+      },
+      "defaultSize": [
+        1.2,
+        1.0,
+        1.2
+      ],
+      "geometry": [
+        {
+          "shape": "sphere",
+          "material": "leaf",
+          "radius": 0.75,
+          "offset": [
+            0,
+            0.35,
+            0
+          ]
+        },
+        {
+          "shape": "sphere",
+          "material": "leaf",
+          "radius": 0.5,
+          "offset": [
+            -0.3,
+            0.25,
+            0.15
+          ]
+        },
+        {
+          "shape": "sphere",
+          "material": "leaf",
+          "radius": 0.45,
+          "offset": [
+            0.3,
+            0.22,
+            -0.1
+          ]
+        }
+      ],
+      "modelPath": "kenney_nature/bush.glb",
+      "license": "CC0",
+      "sourceUrl": "https://kenney.nl/assets/nature-kit"
+    },
+    {
+      "type": "fountain",
+      "label": "喷泉",
+      "category": "Buildings",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.2,
+          4
+        ],
+        "footprint": [
+          0.5,
+          10
+        ],
+        "min": 0.3
+      },
+      "defaultSize": [
+        4.0,
+        0.8,
+        4.0
+      ],
+      "geometry": [
+        {
+          "shape": "cylinder",
+          "material": "stone",
+          "radius": 0.5,
+          "height": 0.35,
+          "offset": [
+            0,
+            0.175,
+            0
+          ]
+        },
+        {
+          "shape": "cylinder",
+          "material": "water",
+          "radius": 0.42,
+          "height": 0.02,
+          "offset": [
+            0,
+            0.36,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            0.3,
+            0.5,
+            0.3
+          ],
+          "offset": [
+            0,
+            0.75,
+            0
+          ]
+        }
+      ],
+      "modelPath": "kenney_fantasy/fountain.glb",
+      "license": "CC0",
+      "sourceUrl": "https://kenney.nl/assets/fantasy-town-kit"
+    },
+    {
+      "type": "bench",
+      "label": "长椅",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.3,
+          1.5
+        ],
+        "footprint": [
+          0.4,
+          3
+        ],
+        "min": 0.15
+      },
+      "defaultSize": [
+        2.0,
+        0.5,
+        0.7
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "wood",
+          "size": [
+            1.0,
+            0.15,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.925,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.1,
+            0.85,
+            0.85
+          ],
+          "offset": [
+            -0.38,
+            0.425,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.1,
+            0.85,
+            0.85
+          ],
+          "offset": [
+            0.38,
+            0.425,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_medieval/bench.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/medievalvillagemegakit.html"
+    },
+    {
+      "type": "lantern",
+      "label": "灯柱",
+      "category": "Props",
+      "placement": [
+        "ground",
+        "on_surface"
+      ],
+      "sizeRange": {
+        "height": [
+          0.5,
+          6
+        ],
+        "footprint": [
+          0.2,
+          1.5
+        ],
+        "min": 0.08
+      },
+      "defaultSize": [
+        0.6,
+        3.0,
+        0.6
+      ],
+      "geometry": [
+        {
+          "shape": "cylinder",
+          "material": "metal",
+          "radius": 0.08,
+          "height": 0.85,
+          "offset": [
+            0,
+            0.425,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "metal",
+          "size": [
+            1.0,
+            0.15,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.925,
+            0
+          ]
+        }
+      ],
+      "modelPath": "kenney_fantasy/lantern.glb",
+      "license": "CC0",
+      "sourceUrl": "https://kenney.nl/assets/fantasy-town-kit"
+    },
+    {
+      "type": "rock",
+      "label": "岩石",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.1,
+          6
+        ],
+        "footprint": [
+          0.2,
+          8
+        ],
+        "min": 0.1
+      },
+      "defaultSize": [
+        1.5,
+        1.0,
+        1.5
+      ],
+      "geometry": [
+        {
+          "shape": "blob",
+          "material": "stone",
+          "size": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.5,
+            0
+          ]
+        }
+      ],
+      "modelPath": "kenney_nature/rock_large.glb",
+      "license": "CC0",
+      "sourceUrl": "https://kenney.nl/assets/nature-kit"
+    },
+    {
+      "type": "crate",
+      "label": "木箱",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.2,
+          3
+        ],
+        "footprint": [
+          0.2,
+          3
+        ],
+        "min": 0.1
+      },
+      "defaultSize": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "wood",
+          "size": [
+            1.0,
+            0.94,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.47,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            1.04,
+            0.06,
+            1.04
+          ],
+          "offset": [
+            0,
+            0.97,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_survival/crate.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/survivalkit.html"
+    },
+    {
+      "type": "barrel",
+      "label": "木桶",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.3,
+          3
+        ],
+        "footprint": [
+          0.3,
+          3
+        ],
+        "min": 0.15
+      },
+      "defaultSize": [
+        0.8,
+        1.1,
+        0.8
+      ],
+      "geometry": [
+        {
+          "shape": "cylinder",
+          "material": "wood",
+          "radius": 0.5,
+          "height": 0.92,
+          "offset": [
+            0,
+            0.46,
+            0
+          ]
+        },
+        {
+          "shape": "cylinder",
+          "material": "metal",
+          "radius": 0.53,
+          "height": 0.06,
+          "offset": [
+            0,
+            0.2,
+            0
+          ]
+        },
+        {
+          "shape": "cylinder",
+          "material": "metal",
+          "radius": 0.53,
+          "height": 0.06,
+          "offset": [
+            0,
+            0.8,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_survival/barrel.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/survivalkit.html"
+    },
+    {
+      "type": "statue",
+      "label": "雕像",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.5,
+          8
+        ],
+        "footprint": [
+          0.3,
+          4
+        ],
+        "min": 0.15
+      },
+      "defaultSize": [
+        1.2,
+        2.4,
+        1.2
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.0,
+            0.15,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.075,
+            0
+          ]
+        },
+        {
+          "shape": "cylinder",
+          "material": "stone",
+          "radius": 0.28,
+          "height": 0.58,
+          "offset": [
+            0,
+            0.44,
+            0
+          ]
+        },
+        {
+          "shape": "sphere",
+          "material": "stone",
+          "radius": 0.14,
+          "offset": [
+            0,
+            0.85,
+            0
+          ]
+        }
+      ],
+      "modelPath": "quaternius_survival/statue.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/survivalkit.html"
+    },
+    {
+      "type": "planter",
+      "label": "花盆",
+      "category": "Props",
+      "placement": [
+        "ground",
+        "on_surface"
+      ],
+      "sizeRange": {
+        "height": [
+          0.2,
+          2
+        ],
+        "footprint": [
+          0.3,
+          4
+        ],
+        "min": 0.15
+      },
+      "defaultSize": [
+        1.0,
+        0.7,
+        1.0
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "stone",
+          "size": [
+            1.0,
+            0.8,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.4,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "stone_dark",
+          "size": [
+            1.06,
+            0.1,
+            1.06
+          ],
+          "offset": [
+            0,
+            0.85,
+            0
+          ]
+        },
+        {
+          "shape": "sphere",
+          "material": "leaf",
+          "radius": 0.35,
+          "offset": [
+            0,
+            0.95,
+            0
+          ]
+        }
+      ],
+      "modelPath": "kenney_fantasy/planter.glb",
+      "license": "CC0",
+      "sourceUrl": "https://kenney.nl/assets/fantasy-town-kit"
+    },
+    {
+      "type": "table",
+      "label": "桌子",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.4,
+          1.6
+        ],
+        "footprint": [
+          0.4,
+          4
+        ],
+        "min": 0.15
+      },
+      "defaultSize": [
+        1.6,
+        0.8,
+        0.9
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "wood",
+          "size": [
+            1.0,
+            0.12,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.94,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.88,
+            0.08
+          ],
+          "offset": [
+            -0.42,
+            0.44,
+            -0.42
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.88,
+            0.08
+          ],
+          "offset": [
+            0.42,
+            0.44,
+            -0.42
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.88,
+            0.08
+          ],
+          "offset": [
+            -0.42,
+            0.44,
+            0.42
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.88,
+            0.08
+          ],
+          "offset": [
+            0.42,
+            0.44,
+            0.42
+          ]
+        }
+      ],
+      "modelPath": "quaternius_survival/table.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/survivalkit.html"
+    },
+    {
+      "type": "chair",
+      "label": "椅子",
+      "category": "Props",
+      "placement": [
+        "ground"
+      ],
+      "sizeRange": {
+        "height": [
+          0.3,
+          1.8
+        ],
+        "footprint": [
+          0.3,
+          2
+        ],
+        "min": 0.12
+      },
+      "defaultSize": [
+        0.6,
+        1.0,
+        0.6
+      ],
+      "geometry": [
+        {
+          "shape": "box",
+          "material": "wood",
+          "size": [
+            1.0,
+            0.12,
+            1.0
+          ],
+          "offset": [
+            0,
+            0.55,
+            0
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood",
+          "size": [
+            1.0,
+            0.6,
+            0.12
+          ],
+          "offset": [
+            0,
+            0.82,
+            0.44
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.52,
+            0.08
+          ],
+          "offset": [
+            -0.4,
+            0.26,
+            -0.4
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.52,
+            0.08
+          ],
+          "offset": [
+            0.4,
+            0.26,
+            -0.4
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.52,
+            0.08
+          ],
+          "offset": [
+            -0.4,
+            0.26,
+            0.4
+          ]
+        },
+        {
+          "shape": "box",
+          "material": "wood_dark",
+          "size": [
+            0.08,
+            0.52,
+            0.08
+          ],
+          "offset": [
+            0.4,
+            0.26,
+            0.4
+          ]
+        }
+      ],
+      "modelPath": "quaternius_survival/chair.glb",
+      "license": "CC0",
+      "sourceUrl": "https://quaternius.com/packs/survivalkit.html"
+    }
+  ]
+}

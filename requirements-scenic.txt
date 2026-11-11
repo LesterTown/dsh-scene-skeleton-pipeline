@@ -1,0 +1,13 @@
+# scenic 模式（Blender 声明式场景）依赖。
+#
+# 安装到 Blender 自带 Python（推荐，blenderSceneMode: scenic 使用）：
+#   /Applications/Blender.app/Contents/Resources/4.5/python/bin/python3.11 -m ensurepip --upgrade
+#   /Applications/Blender.app/Contents/Resources/4.5/python/bin/python3.11 -m pip install -r requirements-scenic.txt
+#
+# 安装检查：
+#   /Applications/Blender.app/Contents/MacOS/Blender --background --python-expr \
+#     "import scenic; print('scenic', scenic.__version__)"
+#
+# 也可在外部 Python 3.11+ 环境安装 bpy wheel 后 headless 运行：
+#   pip install "scenic-bpy[blender]"
+scenic-bpy>=1.19.0

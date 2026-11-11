@@ -1,0 +1,21 @@
+# ============================================================================
+# dsh-scene-skeleton-pipeline —— bundle patch 层
+# ============================================================================
+# 安装为 profile bundle 后，这一层会把插件挂到 Host 上：
+#   - apply(ctx, config) 加载日志
+#   - pipeline-service（ctx.provide('scenePipeline')）
+#   - check_environment 工具
+#   - 流水线引擎（真实执行：ComfyUI → Blender → Unity 装配）+ run_scene_pipeline 工具
+#   - Blender 场景两种模式：scenic（默认，scenic-bpy 声明式庭院 spec + .fbx/.glb）/
+#     legacy（旧固定体块 + 参考图平面），配置 blenderSceneMode 切换
+#   - Blender 导出 layout.json，Unity 按布局装配场景（层级 / 光照 / 相机 / 可选 prefab）
+#   - 设置页宿主路由 /plugins/dsh-scene-skeleton-pipeline/*（状态、检测、保存、pipeline/run）
+#
+# 本地开发不走安装，走 --patch 覆盖层（见仓库根的 scratch-plugin/cordis.yml）；
+# 验证脚本收在 scripts/verify/：all.sh（2→6 全套）、verify-step2..6.sh、verify-load.sh。
+# 发布信息：LICENSE (MIT)、.gitignore、README（PTC 用法 / 真实工程验证 / 已知限制）。
+# ============================================================================
+
+- insert:
+    - id: dsh-scene-skeleton-pipeline
+      name: dsh-scene-skeleton-pipeline

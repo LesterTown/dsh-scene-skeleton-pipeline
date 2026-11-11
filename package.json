@@ -1,0 +1,56 @@
+{
+  "name": "dsh-scene-skeleton-pipeline",
+  "version": "0.1.0",
+  "description": "DSH 编排插件：文字 → ComfyUI 出图 → Blender 生成引擎无关的场景骨架（scene.blend/.fbx/.glb + layout.json），可选 Unity 装配适配器。",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "requirements-scenic.txt",
+    "index.js",
+    "client.js",
+    "lib/",
+    "adapters/",
+    "examples/",
+    "scripts/",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "dsh-bundle",
+    "comfyui",
+    "blender",
+    "scene-generation",
+    "game-dev-tools",
+    "asset-pipeline",
+    "scene-skeleton",
+    "unity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LesterTown/dsh-scene-skeleton-pipeline.git"
+  },
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  }
+}

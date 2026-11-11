@@ -1,0 +1,18 @@
+{
+  "1": {"class_type": "LoadImage", "inputs": {"image": "placeholder.png"}},
+  "2": {"class_type": "SuperPBRModelLoader", "inputs": {"model": "supermat.pth"}},
+  "3": {"class_type": "VAELoader", "inputs": {"vae_name": "vae-ft-mse-840000-ema-pruned.safetensors"}},
+  "4": {"class_type": "SuperPBRDecompose", "inputs": {"image": ["1", 0], "model": ["2", 0], "vae": ["3", 0], "resolution": 512, "batch_chunk": 8}},
+  "5": {"class_type": "SuperPBRORMSplit", "inputs": {"orm": ["4", 1]}},
+  "6": {"class_type": "LoadMoGeModel", "inputs": {"model_name": "moge_3_vitg_fp16.safetensors"}},
+  "7": {"class_type": "MoGeInference", "inputs": {"moge_model": ["6", 0], "image": ["1", 0], "resolution_level": 9, "fov_x_degrees": 0.0, "batch_size": 4, "force_projection": true, "apply_mask": false, "refine_steps": 3}},
+  "8": {"class_type": "MoGeRender", "inputs": {"moge_geometry": ["7", 0], "output": "normal_opengl"}},
+  "9": {"class_type": "MoGeRender", "inputs": {"moge_geometry": ["7", 0], "output": "depth"}},
+  "10": {"class_type": "SuperPBRDetilt", "inputs": {"image": ["9", 0], "method": "quadratic"}},
+  "11": {"class_type": "SaveImage", "inputs": {"images": ["4", 0], "filename_prefix": "dsh/__ID___albedo"}},
+  "12": {"class_type": "SaveImage", "inputs": {"images": ["8", 0], "filename_prefix": "dsh/__ID___normal"}},
+  "13": {"class_type": "SaveImage", "inputs": {"images": ["5", 1], "filename_prefix": "dsh/__ID___roughness"}},
+  "14": {"class_type": "SaveImage", "inputs": {"images": ["5", 2], "filename_prefix": "dsh/__ID___metallic"}},
+  "15": {"class_type": "SaveImage", "inputs": {"images": ["5", 0], "filename_prefix": "dsh/__ID___ao"}},
+  "16": {"class_type": "SaveImage", "inputs": {"images": ["10", 0], "filename_prefix": "dsh/__ID___height"}}
+}

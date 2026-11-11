@@ -1,0 +1,37 @@
+# DSH / 开发用临时目录
+.dsh-dev/
+.dsh-install-test/
+scratch-plugin/.unit-harness.log
+scratch-plugin/.client-harness.log
+
+# 依赖（工作区里 node_modules 是开发用软链）
+node_modules/
+
+# 运行产物
+outputs/
+*.tmp
+
+# 大块端到端产物（保留小体积的 layout.json / unity-result.json 等文本证据）
+e2e-artifacts/**/*.png
+e2e-artifacts/**/*.blend
+e2e-artifacts/**/*.fbx
+e2e-artifacts/**/*.prefab
+e2e-artifacts/**/*.unity
+
+# macOS
+.DS_Store
+
+# 环境变量与本地密钥
+.env
+.env.*
+*.local.json
+
+# 日志与临时文件
+*.log
+/tmp/
+
+# Python 字节码（.pyc 内嵌本机绝对路径，绝不能发布）
+__pycache__/
+*.pyc
+*.pyo
+scratch-plugin/

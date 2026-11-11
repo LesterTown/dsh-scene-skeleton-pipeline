@@ -1,0 +1,88 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "placeholder.png"
+    }
+  },
+  "2": {
+    "class_type": "SuperPBRModelLoader",
+    "inputs": {
+      "model": "supermat.pth"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "vae-ft-mse-840000-ema-pruned.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "SuperPBRDecompose",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "model": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "resolution": 512,
+      "batch_chunk": 8
+    }
+  },
+  "5": {
+    "class_type": "SuperPBRORMSplit",
+    "inputs": {
+      "orm": [
+        "4",
+        1
+      ]
+    }
+  },
+  "11": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ],
+      "filename_prefix": "dsh/__ID___albedo"
+    }
+  },
+  "13": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "5",
+        1
+      ],
+      "filename_prefix": "dsh/__ID___roughness"
+    }
+  },
+  "14": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "5",
+        2
+      ],
+      "filename_prefix": "dsh/__ID___metallic"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "5",
+        0
+      ],
+      "filename_prefix": "dsh/__ID___ao"
+    }
+  }
+}
